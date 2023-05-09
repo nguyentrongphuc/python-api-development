@@ -88,15 +88,15 @@ You will need to provide detailed documentation of your API endpoints including 
 ```json
 {
   "categories": {
-  "1": "Science",
-  "2": "Art",
-  "3": "Geography",
-  "4": "History",
-  "5": "Entertainment",
-  "6": "Sports"
-},
-"success": true,
-"totalCategories": 6
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true,
+  "totalCategories": 6
 }
 ```
 
@@ -115,36 +115,36 @@ You will need to provide detailed documentation of your API endpoints including 
 
 ```json
 {
-"categories": {
-  "1": "Science",
-  "2": "Art",
-  "3": "Geography",
-  "4": "History",
-  "5": "Entertainment",
-  "6": "Sports"
-},
-"questions": [{
-  "answer": "Maya Angelou",
-  "category": 4,
-  "difficulty": 2,
-  "id": 5,
-  "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
   },
-  {
-  "answer": "The Palace of Versailles",
-  "category": 3,
-  "difficulty": 3,
-  "id": 14,
-  "question": "In which royal palace would you find the Hall of Mirrors?"
-  }
-],
-"success": true,
-"total_categories": 6,
-"total_questions": 29
+  "questions": [{
+    "answer": "Maya Angelou",
+    "category": 4,
+    "difficulty": 2,
+    "id": 5,
+    "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+    "answer": "The Palace of Versailles",
+    "category": 3,
+    "difficulty": 3,
+    "id": 14,
+    "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_categories": 6,
+  "total_questions": 29
 }
 ```
 
-#### `POST '/categories/${id}/questions'`
+#### `GET '/categories/${id}/questions'`
 - General:
   + Fetches questions for a cateogry specified by id request argument
   + Request Arguments: id - integer
@@ -154,8 +154,8 @@ You will need to provide detailed documentation of your API endpoints including 
   + `total_questions`: number of total questions.
   + `current_category`: current category type.
 - Sample `CURL http://127.0.0.1:5000/categories/6/questions`
-```json
 
+```json
 {
   "current_category": "Sports",
   "questions": [
@@ -177,8 +177,91 @@ You will need to provide detailed documentation of your API endpoints including 
   "success": true,
   "total_questions": 2
 }
+```
 
+#### `DELETE '/questions/${id}'`
+- General:
+  + Deletes a specified question using the id of the question
+  + Request Arguments: id - integer
+- Returns: 
+  + `success`: true if the question{id} has been deleted from database, otherwise: false
+- Sample: `curl -X DELETE http://127.0.0.1:5000/questions/36`
 
+```json
+{
+  "success": false
+}
+```
+
+#### `POST '/questions'`
+- General: Sends a post request in order to search for a specific question by search term
+- Request Body:
+```json
+{
+    'searchTerm': 'search condition that user looking for question'
+}
+```
+- Returns: 
+  + any array of questions, 
+  + a number of totalQuestions that met the search term and the current category string
+- Sample: `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"searchTerm": "autobiography"}'`
+```json
+{
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
+}
+```
+#### `POST '/questions'`
+- General: Sends a post request in order to add a new question
+- Request Body:
+```json
+{
+    'question':  'Heres a new question string',
+    'answer':  'Heres a new answer string',
+    'difficulty': 1,
+    'category': 3,
+}
+```
+- Returns: "success": true
+- Sample: `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "q1", "answer":"a1", "difficulty":1, "category":6}'`
+```json
+{
+  "success": true
+}
+```
+
+### QUIZZES
+#### `POST '/quizzes'`
+- General: Sends a post request in order to get the next question
+- Request Body:
+```json
+{
+  "previous_questions": [1, 4, 20, 15],
+  "quiz_category": "current category"
+}
+```
+- Returns: a single new question object
+- Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions":[1, 4, 20, 15],"quiz_category": {"type": "Science", "id": 1}}'`
+```json
+{
+  "question": {
+    "answer": "Blood",
+    "category": 1,
+    "difficulty": 4,
+    "id": 22,
+    "question": "Hematology is a branch of medicine involving the study of what?"
+  },
+  "success": true
+}
 ```
 
 ## Testing

@@ -156,8 +156,7 @@ def create_app(test_config=None):
                     {
                         "success": True,
                         "questions": current_questions,
-                        "total_questions": len(questions),
-                        "current_category": 6,
+                        "total_questions": len(questions)
                     }
                 )
             else:
@@ -167,10 +166,7 @@ def create_app(test_config=None):
                 questions = Question.query.filter(Question.category == new_category).all()
                 current_questions = paginate_list( request=request, selection=questions)
                 return jsonify({
-                    'success': True,
-                    'created': 1,
-                    'questions': current_questions,
-                    "totalQuestions": len(questions)
+                    'success': True
                 })
         except:
             abort(422)
