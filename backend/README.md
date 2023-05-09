@@ -198,7 +198,7 @@ You will need to provide detailed documentation of your API endpoints including 
 - Request Body:
 ```json
 {
-    'searchTerm': 'search condition that user looking for question'
+    "searchTerm": "search condition that user looking for question"
 }
 ```
 - Returns: 
@@ -225,10 +225,10 @@ You will need to provide detailed documentation of your API endpoints including 
 - Request Body:
 ```json
 {
-    'question':  'Heres a new question string',
-    'answer':  'Heres a new answer string',
-    'difficulty': 1,
-    'category': 3,
+    "question":  "Heres a new question string",
+    "answer":  "Heres a new answer string",
+    "difficulty": 1,
+    "category": 3,
 }
 ```
 - Returns: "success": true
@@ -263,6 +263,21 @@ You will need to provide detailed documentation of your API endpoints including 
   "success": true
 }
 ```
+
+### Error Handling
+Errors are returned as JSON objects in the following format:
+```
+{
+    "success": False, 
+    "error": 400,
+    "message": "bad request"
+}
+```
+The API will return three error types when requests fail:
+- 400: Bad Request
+- 404: Resource Not Found
+- 405: method not allowed
+- 422: Not Processable 
 
 ## Testing
 
