@@ -3,7 +3,6 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
-import json
 
 from models import setup_db, Question, Category
 
@@ -20,7 +19,6 @@ def paginate_list(request, selection):
     return current_list
 
 def create_app(test_config=None):
-    # create and configure the app
     app = Flask(__name__)
     app.app_context().push()
     setup_db(app)
@@ -136,6 +134,7 @@ def create_app(test_config=None):
         new_difficulty = body.get('difficulty', None)
         new_category = body.get('category', None)
         search = body.get('searchTerm', None)
+        print(f'question: { new_question } - answer: {new_answer}')
         try:
             if search:
                 questions = Question.query.filter(Question.question.ilike('%{}%'.format(search))).all()
@@ -148,7 +147,7 @@ def create_app(test_config=None):
                         "total_questions": len(questions)
                     }
                 )
-            else:
+            elif new_question != None and new_answer != None and new_difficulty != None and new_category != None:
                 question = Question(question=new_question, answer=new_answer, difficulty=new_difficulty, category=new_category)
                 question.insert()
 
@@ -157,6 +156,8 @@ def create_app(test_config=None):
                 return jsonify({
                     'success': True
                 })
+            else:
+                raise Exception("Sorry, the request invalid")
         except:
             abort(422)
 
@@ -242,5 +243,5 @@ def create_app(test_config=None):
             jsonify({"success": False, "error": 405, "message": "method not allowed"}),
             405,
         )
+    
     return app
-
