@@ -63,7 +63,7 @@ def create_app(test_config=None):
             {
                 "success": True,
                 "categories": list,
-                "totalCategories": len(categories),
+                "total_categories": len(categories),
             }
         )
 
@@ -93,8 +93,7 @@ def create_app(test_config=None):
         if len(list) == 0 or len(current_questions) == 0:
             abort(404)
 
-        return jsonify(
-            {
+        return jsonify({
                 "success": True,
                 "questions": current_questions,
                 "total_questions": len(questions),
@@ -110,6 +109,16 @@ def create_app(test_config=None):
     TEST: When you click the trash icon next to a question, the question will be removed.
     This removal will persist in the database and when you refresh the page.
     """
+    @app.route("/questions/<int:id>", methods=['DELETE'])
+    def delete_questions(id):
+        question = Question.query.get(id)
+        if question != None:
+            question.delete()
+    
+        return jsonify({
+                "success": True if question != None else False
+            }
+        )
 
     """
     @TODO:

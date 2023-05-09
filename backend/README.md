@@ -71,24 +71,33 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
-### Documentation Example
-
-`GET '/api/v1.0/categories'`
+### CATEGORIES `GET '/categories'`
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
+- Returns: 
+  + `success`: true if the categories exist in database.
+  + `total_categories`: number of total categories
+  + An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
+  
+- Sample: `http://127.0.0.1:5000/categories`
 
 ```json
 {
+  "categories": {
   "1": "Science",
   "2": "Art",
   "3": "Geography",
   "4": "History",
   "5": "Entertainment",
   "6": "Sports"
+},
+"success": true,
+"totalCategories": 6
 }
 ```
+
+
 
 ## Testing
 
