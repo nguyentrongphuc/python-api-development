@@ -69,8 +69,6 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 ## Documenting your Endpoints
 
-You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
-
 ### CATEGORIES 
 
 #### `GET '/categories'`
@@ -123,25 +121,27 @@ You will need to provide detailed documentation of your API endpoints including 
     "5": "Entertainment",
     "6": "Sports"
   },
-  "questions": [{
-    "answer": "Maya Angelou",
-    "category": 4,
-    "difficulty": 2,
-    "id": 5,
-    "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
     },
     {
-    "answer": "The Palace of Versailles",
-    "category": 3,
-    "difficulty": 3,
-    "id": 14,
-    "question": "In which royal palace would you find the Hall of Mirrors?"
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
     }
   ],
   "success": true,
   "total_categories": 6,
-  "total_questions": 29
+  "total_questions": 2
 }
+
 ```
 
 #### `GET '/categories/${id}/questions'`
