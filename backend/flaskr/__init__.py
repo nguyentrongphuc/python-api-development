@@ -186,8 +186,7 @@ def create_app(test_config=None):
         current_questions = paginate_list( request=request,
                                             selection=questions)
 
-        return jsonify(
-            {
+        return jsonify({
                 "success": True,
                 "questions": current_questions,
                 "total_questions": len(questions),
@@ -208,17 +207,16 @@ def create_app(test_config=None):
     @app.route('/quizzes', methods=['POST'])
     def get_next_question():
         body = request.get_json()
+        previous_questions = body.get('previous_questions', None)
 
-        category_id = body.get('quiz_category')
-        questions = Question.query.filter(Question.category == category_id).all()
+        quiz_category = body.get('quiz_category')
+
+        questions = Question.query.filter(Question.category == quiz_category['id'] if quiz_category['id'] != 0 else 1==1, Question.id.not_in(previous_questions)).all()
         current_questions = paginate_list( request=request,
                                             selection=questions)
-
-        return jsonify(
-            {
+        return jsonify({
                 "success": True,
-                "questions": current_questions,
-                "totalQuestions": len(questions)
+                "question": random.choice(current_questions) if len(questions) > 0 else None
             }
         )       
 
@@ -247,7 +245,6 @@ def create_app(test_config=None):
             jsonify({"success": False, "error": 400, "message": "bad request"}),
             400,
         )
-
 
     @app.errorhandler(405)
     def not_found(error):
