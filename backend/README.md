@@ -71,16 +71,19 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
-### CATEGORIES `GET '/categories'`
+### CATEGORIES 
 
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
+#### `GET '/categories'`
+
+- General:
+  + Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+  + Request Arguments: None
 - Returns: 
-  + `success`: true if the categories exist in database.
+  + `success`: true if the data exist in database.
   + `total_categories`: number of total categories
   + An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
   
-- Sample: `http://127.0.0.1:5000/categories`
+- Sample: `CURL http://127.0.0.1:5000/categories`
 
 ```json
 {
@@ -97,7 +100,86 @@ You will need to provide detailed documentation of your API endpoints including 
 }
 ```
 
+### QUESTION
 
+#### `GET '/questions?page=${integer}'`
+- General:
+  + Fetches a paginated set of questions, a total number of questions, all categories and current category string.
+  + Request Arguments: page - integer
+- Returns: 
+  + An object with 10 paginated questions, total questions, object including all categories, and current category string
+  + `success`: true if the data exist in database.
+  + `total_questions`: number of total questions.
+  + `total_categories`: number of total categories.
+- Sample: `CURL http://127.0.0.1:5000/questions?page=2`
+
+```json
+{
+"categories": {
+  "1": "Science",
+  "2": "Art",
+  "3": "Geography",
+  "4": "History",
+  "5": "Entertainment",
+  "6": "Sports"
+},
+"questions": [{
+  "answer": "Maya Angelou",
+  "category": 4,
+  "difficulty": 2,
+  "id": 5,
+  "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+  },
+  {
+  "answer": "The Palace of Versailles",
+  "category": 3,
+  "difficulty": 3,
+  "id": 14,
+  "question": "In which royal palace would you find the Hall of Mirrors?"
+  }
+],
+"success": true,
+"total_categories": 6,
+"total_questions": 29
+}
+```
+
+#### `POST '/categories/${id}/questions'`
+- General:
+  + Fetches questions for a cateogry specified by id request argument
+  + Request Arguments: id - integer
+- Returns: 
+  + An object with questions for the specified category, total questions, and current category string
+  + `success`: true if the data exist in database.
+  + `total_questions`: number of total questions.
+  + `current_category`: current category type.
+- Sample `CURL http://127.0.0.1:5000/categories/6/questions`
+```json
+
+{
+  "current_category": "Sports",
+  "questions": [
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    }
+  ],
+  "success": true,
+  "total_questions": 2
+}
+
+
+```
 
 ## Testing
 

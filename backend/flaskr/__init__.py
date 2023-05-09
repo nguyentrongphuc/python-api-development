@@ -98,8 +98,7 @@ def create_app(test_config=None):
                 "questions": current_questions,
                 "total_questions": len(questions),
                 "categories": list,
-                "total_categories": len(categories),
-                "current_category": 'History',
+                "total_categories": len(categories)
             }
         )
     """
