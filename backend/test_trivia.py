@@ -2,7 +2,7 @@ import unittest
 import json
 
 from flaskr import create_app
-from models import setup_db, Category, Question
+from models import Question
 
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
@@ -92,6 +92,17 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
         self.assertTrue(data["question"])
+
+    def test_delete_question(self):
+        question = Question.query.order_by(Question.id.desc()).first()
+        id = question.id
+        res = self.client().delete("/questions/{}".format(id))
+        data = json.loads(res.data)
+
+        question = Question.query.get(id)   
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertEqual(question, None)
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
