@@ -18,6 +18,18 @@ def paginate_list(request, selection):
 
     return current_list
 
+# def server_paginate_list(request):
+#     items_limit = request.args.get('limit', 10, type=int)
+#     selected_page = request.args.get('page', 1, type=int)
+#     current_index = selected_page - 1
+
+#     questions = \
+#             Question.query.order_by(
+#                 Question.id
+#             ).limit(items_limit).offset(current_index * items_limit).all()
+#     return [item.format() for item in questions]
+
+
 def create_app(test_config=None):
     app = Flask(__name__)
     app.app_context().push()
@@ -80,6 +92,7 @@ def create_app(test_config=None):
         questions = Question.query.all()
         current_questions = paginate_list( request=request,
                                             selection=questions)
+                                            
         if len(list) == 0 or len(current_questions) == 0:
             abort(404)
 
